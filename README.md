@@ -2,8 +2,8 @@ Site da api: https://api-test-company-hero.herokuapp.com/
 
 Para utilizar o envio de formulário será necessário um Token aplicado para um usuário específico criado na base de dados. Isso fornece segurança a API para que outras pessoas não acessem a informação direta.
 
-Key = Authorization
-Token = Token 0fc48e132c1ce108b87edcf92de0affb93240327
+KEY = Authorization
+VALUE = Token 0fc48e132c1ce108b87edcf92de0affb93240327
 
 Usuário master criado para o envio de formulário na API.
 Obs: Este usuário não tem acesso a base de dados, pois não inclui ele para acesso direto ao /admin
