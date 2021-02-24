@@ -235,15 +235,26 @@ def get_error_detail(exc_info):
         error_dict = exc_info.error_dict
     except AttributeError:
         return [
-            ErrorDetail((error.message % error.params) if error.params else error.message,
-                        code=error.code if error.code else code)
-            for error in exc_info.error_list]
+            ErrorDetail(
+                (error.message % error.params)
+                if error.params
+                else error.message,
+                code=error.code or code,
+            )
+            for error in exc_info.error_list
+        ]
+
     return {
         k: [
-            ErrorDetail((error.message % error.params) if error.params else error.message,
-                        code=error.code if error.code else code)
+            ErrorDetail(
+                (error.message % error.params)
+                if error.params
+                else error.message,
+                code=error.code or code,
+            )
             for error in errors
-        ] for k, errors in error_dict.items()
+        ]
+        for k, errors in error_dict.items()
     }
 
 
@@ -348,9 +359,8 @@ class Field:
         self.style = {} if style is None else style
         self.allow_null = allow_null
 
-        if self.default_empty_html is not empty:
-            if default is not empty:
-                self.default_empty_html = default
+        if self.default_empty_html is not empty and default is not empty:
+            self.default_empty_html = default
 
         if validators is not None:
             self.validators = list(validators)
@@ -395,10 +405,8 @@ class Field:
 
         # self.source_attrs is a list of attributes that need to be looked up
         # when serializing the instance, or populating the validated data.
-        if self.source == '*':
-            self.source_attrs = []
-        else:
-            self.source_attrs = self.source.split('.')
+        self.source_attrs = [] if self.source == '*' else self.source.split('.')
+
 
     # .validators is a lazily loaded property, that gets its default
     # value from `get_validators`.
